@@ -55,7 +55,7 @@ namespace ProjectManagement.Services
         /// <inheritdoc />
         public Project GetProjectById(Guid id)
         {
-            return _projects.FirstOrDefault(p => p.Id == id);
+            return _projects.Single(p => p.Id == id);
         }
 
         /// <inheritdoc />

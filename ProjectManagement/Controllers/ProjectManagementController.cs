@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Contracts;
-using ProjectManagement.Models;
 using ProjectManagement.Services;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ProjectManagement.Controllers
 {
@@ -18,47 +15,68 @@ namespace ProjectManagement.Controllers
             _projectService = projectService;
         }
 
+        [Route("~/api/project-management/projects")]
         [HttpPost]
-        public void Post([FromBody] CreateProjectRequest request)
+        [ProducesResponseType(typeof(CreateProjectResponse), StatusCodes.Status201Created)]
+        public IActionResult Post([FromBody] CreateProjectRequest request)
         {
             if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            this._projectService.CreateProject(
+            var project = this._projectService.CreateProject(
                 request.Name,
                 request.Description,
                 request.Status);
+
+            return CreatedAtAction("GetById", new { id = project.Id }, project);
+            
         }
 
-        [HttpPut("{id}")]
-        public void Put(Guid id, [FromBody] UpdateProjectRequest request)
+        [Route("~/api/project-management/projects/{id}")]
+        [HttpPut]
+        [ProducesResponseType(typeof(UpdateProjectResponse), StatusCodes.Status200OK)]
+        public IActionResult Put(Guid id, [FromBody] UpdateProjectRequest request)
         {
             if(request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            this._projectService.UpdateProject(id, request.Name, request.Status);
+            var project = this._projectService.UpdateProject(id, request.Name, request.Status);
+
+            return Ok(project);
         }
-        
+
+        [Route("~/api/project-management/projects")]
         [HttpGet]
-        public IEnumerable<Project> Get()
+        [ProducesResponseType(typeof(GetAllProjectsResponse), StatusCodes.Status200OK)]
+        public IActionResult GetAll()
         {
-            return this._projectService.GetAllProjects();
+            var projects = this._projectService.GetAllProjects();
+
+            return Ok(projects);
         }
 
-        [HttpGet("{id}")]
-        public Project Get(Guid id)
+        [Route("~/api/project-management/projects/{id}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(GetProjectByIdResponse), StatusCodes.Status200OK)]
+        public IActionResult GetById(Guid id)
         {
-            return this._projectService.GetProjectById(id);
+            var project = this._projectService.GetProjectById(id);
+
+            return Ok(project);
         }
 
-        [HttpDelete("{id}")]
-        public void Delete(Guid id)
+        [Route("~/api/project-management/projects/{id}")]
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult Delete(Guid id)
         {
             this._projectService.DeleteProject(id);
+
+            return Ok();
         }
     }
 }

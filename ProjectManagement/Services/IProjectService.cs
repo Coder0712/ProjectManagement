@@ -32,16 +32,16 @@ namespace ProjectManagement.Services
         void DeleteProject(Guid id);
 
         /// <summary>
-        /// Get all projects.
+        /// Gets all projects.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list with all projects.</returns>
         List<Project> GetAllProjects();
 
         /// <summary>
-        /// Get a project by its id.
+        /// Gets a project by its id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">The id of the project.</param>
+        /// <returns>A single project.</returns>
         Project GetProjectById(Guid id);
     }
 }
