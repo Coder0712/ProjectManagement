@@ -10,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IProjectService, ProjectService>();
+builder.Services.AddSingleton<IKanbanBoardService, KanbanBoardService>();
 
 var app = builder.Build();
 
