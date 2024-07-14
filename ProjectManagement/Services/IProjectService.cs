@@ -43,5 +43,13 @@ namespace ProjectManagement.Services
         /// <param name="id">The id of the project.</param>
         /// <returns>A single project.</returns>
         Project GetProjectById(Guid id);
+
+        /// <summary>
+        /// Creates a reference from a kanban board to a project.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="kanbanBoardId">The kanban board id.</param>
+        /// <returns>A project kanban board reference.</returns>
+        ProjectKanbanBoardReference AddKanbanBoardToProject(Guid projectId, Guid kanbanBoardId);
     }
 }

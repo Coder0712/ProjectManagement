@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Contracts;
 using ProjectManagement.Contracts.KanbanBoards;
+using ProjectManagement.Contracts.ProjectKanbanBoards;
 using ProjectManagement.Services;
 
 namespace ProjectManagement.Controllers
@@ -82,6 +83,17 @@ namespace ProjectManagement.Controllers
             this._projectService.DeleteProject(id);
 
             return Ok();
+        }
+
+        [Route("~/api/project-management/projects/{id}")]
+        [HttpPost]
+        public IActionResult AddProjectKanbanBoardReference(
+            [FromRoute] Guid id,
+            [FromBody] CreateProjectKanbanBoardReference request)
+        {
+           var reference = _projectService.AddKanbanBoardToProject(id, request.KanbanBoardId);
+
+           return Ok(reference);
         }
 
         [Route("~/api/project-management/kanban-boards")]
