@@ -1,4 +1,4 @@
-﻿namespace ProjectManagement.Contracts
+﻿namespace ProjectManagement.Contracts.Projects
 {
     /// <summary>
     /// Represents a request to create a 

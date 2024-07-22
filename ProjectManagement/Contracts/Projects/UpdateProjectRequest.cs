@@ -1,4 +1,4 @@
-﻿namespace ProjectManagement.Contracts
+﻿namespace ProjectManagement.Contracts.Projects
 {
     public sealed record UpdateProjectRequest
     {

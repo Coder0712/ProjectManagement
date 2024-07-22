@@ -1,11 +1,11 @@
 ﻿using ProjectManagement.Models;
 
-namespace ProjectManagement.Contracts
+namespace ProjectManagement.Contracts.Projects
 {
-    public sealed record UpdateProjectResponse
+    public sealed record GetProjectByIdResponse
     {
         /// <summary>
-        /// Gets or sets the updated project.
+        /// Gets or sets the project.
         /// </summary>
         public required Project Project { get; set; }
     }
