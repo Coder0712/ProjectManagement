@@ -8,6 +8,7 @@ namespace ProjectManagement.Services
     public sealed class ProjectService : IProjectService
     {
         List<Project> _projects = new List<Project>();
+        List<ProjectKanbanBoardReference> _references = [];
 
         /// <inheritdoc />
         public Project CreateProject(string name, string description, string status)
@@ -69,6 +70,29 @@ namespace ProjectManagement.Services
             }
 
             this._projects.Remove(project);
+        }
+
+        /// <summary>
+        /// Creates a new project kanban board reference.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="kanbanBoardId">The kanban board id.</param>
+        /// <returns>A project kanban board reference object.</returns>
+        /// <exception cref="NullReferenceException"></exception>
+        public ProjectKanbanBoardReference AddKanbanBoardToProject(Guid projectId, Guid kanbanBoardId)
+        {
+            var project = _projects.SingleOrDefault(p => p.Id == projectId) 
+                ?? throw new NullReferenceException();
+
+            var reference = new ProjectKanbanBoardReference
+            {
+                ProjectId = projectId,
+                KanbanBoardId = kanbanBoardId,
+            };
+
+            _references.Add(reference);
+
+            return reference;
         }
     }
 }

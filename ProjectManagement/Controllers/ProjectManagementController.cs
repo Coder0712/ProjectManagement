@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Contracts;
+using ProjectManagement.Contracts.KanbanBoards;
+using ProjectManagement.Contracts.ProjectKanbanBoards;
 using ProjectManagement.Services;
 
 namespace ProjectManagement.Controllers
@@ -9,10 +11,14 @@ namespace ProjectManagement.Controllers
     public class ProjectManagementController : ControllerBase
     {
         private readonly IProjectService _projectService;
+        private readonly IKanbanBoardService _kanbanBoardService;
 
-        public ProjectManagementController(IProjectService projectService)
+        public ProjectManagementController(
+            IProjectService projectService,
+            IKanbanBoardService kanbanBoardService)
         {
             _projectService = projectService;
+            _kanbanBoardService = kanbanBoardService;
         }
 
         [Route("~/api/project-management/projects")]
@@ -77,6 +83,70 @@ namespace ProjectManagement.Controllers
             this._projectService.DeleteProject(id);
 
             return Ok();
+        }
+
+        [Route("~/api/project-management/projects/{id}")]
+        [HttpPost]
+        public IActionResult AddProjectKanbanBoardReference(
+            [FromRoute] Guid id,
+            [FromBody] CreateProjectKanbanBoardReference request)
+        {
+           var reference = _projectService.AddKanbanBoardToProject(id, request.KanbanBoardId);
+
+           return Ok(reference);
+        }
+
+        [Route("~/api/project-management/kanban-boards")]
+        [HttpPost]
+        public IActionResult AddKanbanBoard([FromBody] CreateKanbanBoardRequest request)
+        {
+            ArgumentNullException.ThrowIfNull(request);
+
+            var kanbanBoard = _kanbanBoardService.CreateBoard(request.Name);
+
+            return Ok(kanbanBoard);
+        }
+
+        [Route("~/api/project-management/kanban-boards/{id}")]
+        [HttpPut]
+        public IActionResult UpdateKanbanBoard(
+            [FromRoute] Guid id,
+            [FromBody] UpdateKanbanBoardRequst request)
+        {
+            ArgumentNullException.ThrowIfNull(request);
+
+            var kanbanBoard = _kanbanBoardService.UpdateBoard(id, request.Name);
+
+            return Ok(kanbanBoard);
+        }
+
+        [Route("~/api/project-management/kanban-boards/{id}")]
+        [HttpGet]
+        public IActionResult GetKanbanBoardById(
+            [FromRoute] Guid id)
+        {
+            var kanbanBoard = _kanbanBoardService.GetBoard(id);
+
+            return Ok(kanbanBoard);
+        }
+
+        [Route("~/api/project-management/kanban-boards")]
+        [HttpGet]
+        public IActionResult GetKanbanBoards()
+        {
+            var kanbanBoard = _kanbanBoardService.GetBoards();
+
+            return Ok(kanbanBoard);
+        }
+
+        [Route("~/api/project-management/kanban-boards/{id}")]
+        [HttpDelete]
+        public IActionResult DeleteKanbanBoardById(
+            [FromRoute] Guid id)
+        {
+            _kanbanBoardService.DeleteBoard(id);
+
+            return NoContent();
         }
     }
 }
