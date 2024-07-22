@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjectManagement.Contracts;
 using ProjectManagement.Contracts.KanbanBoards;
 using ProjectManagement.Contracts.ProjectKanbanBoards;
+using ProjectManagement.Contracts.Projects;
 using ProjectManagement.Services;
 
 namespace ProjectManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("")]
     [ApiController]
     public class ProjectManagementController : ControllerBase
     {
@@ -21,7 +21,7 @@ namespace ProjectManagement.Controllers
             _kanbanBoardService = kanbanBoardService;
         }
 
-        [Route("~/api/project-management/projects")]
+        [Route("/api/project-management/projects")]
         [HttpPost]
         [ProducesResponseType(typeof(CreateProjectResponse), StatusCodes.Status201Created)]
         public IActionResult Post([FromBody] CreateProjectRequest request)
@@ -40,7 +40,7 @@ namespace ProjectManagement.Controllers
             
         }
 
-        [Route("~/api/project-management/projects/{id}")]
+        [Route("/api/project-management/projects/{id}")]
         [HttpPut]
         [ProducesResponseType(typeof(UpdateProjectResponse), StatusCodes.Status200OK)]
         public IActionResult Put(Guid id, [FromBody] UpdateProjectRequest request)
@@ -55,7 +55,7 @@ namespace ProjectManagement.Controllers
             return Ok(project);
         }
 
-        [Route("~/api/project-management/projects")]
+        [Route("/api/project-management/projects")]
         [HttpGet]
         [ProducesResponseType(typeof(GetAllProjectsResponse), StatusCodes.Status200OK)]
         public IActionResult GetAll()
@@ -65,7 +65,7 @@ namespace ProjectManagement.Controllers
             return Ok(projects);
         }
 
-        [Route("~/api/project-management/projects/{id}")]
+        [Route("/api/project-management/projects/{id}")]
         [HttpGet]
         [ProducesResponseType(typeof(GetProjectByIdResponse), StatusCodes.Status200OK)]
         public IActionResult GetById(Guid id)
@@ -75,7 +75,7 @@ namespace ProjectManagement.Controllers
             return Ok(project);
         }
 
-        [Route("~/api/project-management/projects/{id}")]
+        [Route("/api/project-management/projects/{id}")]
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Delete(Guid id)
@@ -85,7 +85,7 @@ namespace ProjectManagement.Controllers
             return Ok();
         }
 
-        [Route("~/api/project-management/projects/{id}")]
+        [Route("/api/project-management/projects/{id}")]
         [HttpPost]
         public IActionResult AddProjectKanbanBoardReference(
             [FromRoute] Guid id,
@@ -96,7 +96,7 @@ namespace ProjectManagement.Controllers
            return Ok(reference);
         }
 
-        [Route("~/api/project-management/kanban-boards")]
+        [Route("/api/project-management/kanban-boards")]
         [HttpPost]
         public IActionResult AddKanbanBoard([FromBody] CreateKanbanBoardRequest request)
         {
@@ -107,7 +107,7 @@ namespace ProjectManagement.Controllers
             return Ok(kanbanBoard);
         }
 
-        [Route("~/api/project-management/kanban-boards/{id}")]
+        [Route("/api/project-management/kanban-boards/{id}")]
         [HttpPut]
         public IActionResult UpdateKanbanBoard(
             [FromRoute] Guid id,
@@ -120,7 +120,7 @@ namespace ProjectManagement.Controllers
             return Ok(kanbanBoard);
         }
 
-        [Route("~/api/project-management/kanban-boards/{id}")]
+        [Route("/api/project-management/kanban-boards/{id}")]
         [HttpGet]
         public IActionResult GetKanbanBoardById(
             [FromRoute] Guid id)
@@ -130,7 +130,7 @@ namespace ProjectManagement.Controllers
             return Ok(kanbanBoard);
         }
 
-        [Route("~/api/project-management/kanban-boards")]
+        [Route("/api/project-management/kanban-boards")]
         [HttpGet]
         public IActionResult GetKanbanBoards()
         {
@@ -139,7 +139,7 @@ namespace ProjectManagement.Controllers
             return Ok(kanbanBoard);
         }
 
-        [Route("~/api/project-management/kanban-boards/{id}")]
+        [Route("/api/project-management/kanban-boards/{id}")]
         [HttpDelete]
         public IActionResult DeleteKanbanBoardById(
             [FromRoute] Guid id)

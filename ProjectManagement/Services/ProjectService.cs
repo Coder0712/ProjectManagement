@@ -7,7 +7,7 @@ namespace ProjectManagement.Services
     /// </summary>
     public sealed class ProjectService : IProjectService
     {
-        List<Project> _projects = new List<Project>();
+        List<Project> _projects = [];
         List<ProjectKanbanBoardReference> _references = [];
 
         /// <inheritdoc />
@@ -28,13 +28,9 @@ namespace ProjectManagement.Services
 
         public Project UpdateProject(Guid id, string name, string status)
         {
-            var project = _projects.FirstOrDefault(p => p.Id == id);
-
-            if (project is null)
-            {
-                throw new NullReferenceException();
-            }
-
+            var project = _projects.FirstOrDefault(p => p.Id == id) 
+                ?? throw new NullReferenceException();
+            
             if (name is null)
             {
                 project.Status = status;
@@ -62,13 +58,9 @@ namespace ProjectManagement.Services
         /// <inheritdoc />
         public void DeleteProject(Guid id)
         {
-            var project = this._projects.SingleOrDefault(p => p.Id == id);
-
-            if (project is null)
-            {
-                throw new NullReferenceException();
-            }
-
+            var project = this._projects.SingleOrDefault(p => p.Id == id) 
+                ?? throw new NullReferenceException();
+            
             this._projects.Remove(project);
         }
 

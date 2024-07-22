@@ -5,7 +5,6 @@ namespace ProjectManagement.Services
     public sealed class KanbanBoardService : IKanbanBoardService
     {
         private List<KanbanBoard> _kanbanBoards = [];
-
         public KanbanBoard CreateBoard(string name)
         {
             var kanbanBoard = new KanbanBoard
