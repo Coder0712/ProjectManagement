@@ -14,5 +14,10 @@
         /// Gets or sets the name of the board.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the references.
+        /// </summary>
+        public ICollection<ProjectKanbanBoardReference> References { get; set; }
     }
 }

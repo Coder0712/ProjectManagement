@@ -7,23 +7,26 @@ namespace ProjectManagement.Services
         /// <summary>
         /// Creates a kanban board.
         /// </summary>
-        /// <param name="projectId">The id of the project.</param>
         /// <param name="name">The name of the board.</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/>.</param>
         /// <returns>A new board.</returns>
-        KanbanBoard CreateBoard(string name);
+        KanbanBoard CreateBoard(string name, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates an existing board.
         /// </summary>
+        /// <param name="id"> The id of the current board.</param>
         /// <param name="name">The new name of the board.</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/>.</param>
         /// <returns>A board with a new name.</returns>
-        KanbanBoard UpdateBoard(Guid id, string name);
+        KanbanBoard UpdateBoard(Guid id, string name, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes a board.
         /// </summary>
         /// <param name="id">The id of the board.</param>
-        void DeleteBoard(Guid id);
+        /// <param name="cancellationToken"><see cref="CancellationToken"/>.</param>
+        void DeleteBoard(Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get all kanban boards.

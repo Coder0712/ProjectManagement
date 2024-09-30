@@ -1,4 +1,6 @@
 ﻿using ProjectManagement.Models;
+using ProjectManagement.Domain;
+
 
 namespace ProjectManagement.Services
 {
@@ -7,11 +9,19 @@ namespace ProjectManagement.Services
     /// </summary>
     public sealed class ProjectService : IProjectService
     {
-        List<Project> _projects = [];
-        List<ProjectKanbanBoardReference> _references = [];
+        private readonly IDbContext _dbContext;
+
+        /// <summary>
+        /// Initialize a new object of type <see cref="ProjectService"/>.>
+        /// </summary>
+        /// <param name="dbContext">The db context.</param>
+        public ProjectService(IDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         /// <inheritdoc />
-        public Project CreateProject(string name, string description, string status)
+        public Project CreateProject(string name, string description, string status, CancellationToken cancellationToken = default)
         {
             var project = new Project
             {
@@ -21,14 +31,16 @@ namespace ProjectManagement.Services
                 Status = status
             };
 
-            this._projects.Add(project);
+            _dbContext.Project.Add(project);
+            _dbContext.SaveChangesAsync(cancellationToken);
 
             return project;
         }
 
-        public Project UpdateProject(Guid id, string name, string status)
+        /// <inheritdoc />
+        public Project UpdateProject(Guid id, string name, string status, CancellationToken cancellationToken = default)
         {
-            var project = _projects.FirstOrDefault(p => p.Id == id) 
+            var project = _dbContext.Project.FirstOrDefault(p => p.Id == id) 
                 ?? throw new NullReferenceException();
             
             if (name is null)
@@ -40,28 +52,32 @@ namespace ProjectManagement.Services
                 project.Name = name;
             }
 
+            _dbContext.Project.Update(project);
+            _dbContext.SaveChangesAsync(cancellationToken);
+
             return project;
         }
 
         /// <inheritdoc />
         public List<Project> GetAllProjects()
         {
-            return this._projects;
+            return this._dbContext.Project.ToList();
         }
 
         /// <inheritdoc />
         public Project GetProjectById(Guid id)
         {
-            return _projects.Single(p => p.Id == id);
+            return _dbContext.Project.Single(p => p.Id == id);
         }
 
         /// <inheritdoc />
-        public void DeleteProject(Guid id)
+        public void DeleteProject(Guid id, CancellationToken cancellationToken = default)
         {
-            var project = this._projects.SingleOrDefault(p => p.Id == id) 
+            var project = _dbContext.Project.SingleOrDefault(p => p.Id == id) 
                 ?? throw new NullReferenceException();
             
-            this._projects.Remove(project);
+            _dbContext.Project.Remove(project);
+            _dbContext.SaveChangesAsync(cancellationToken);
         }
 
         /// <summary>
@@ -73,7 +89,7 @@ namespace ProjectManagement.Services
         /// <exception cref="NullReferenceException"></exception>
         public ProjectKanbanBoardReference AddKanbanBoardToProject(Guid projectId, Guid kanbanBoardId)
         {
-            var project = _projects.SingleOrDefault(p => p.Id == projectId) 
+            var project = _dbContext.Project.SingleOrDefault(p => p.Id == projectId) 
                 ?? throw new NullReferenceException();
 
             var reference = new ProjectKanbanBoardReference
@@ -82,7 +98,7 @@ namespace ProjectManagement.Services
                 KanbanBoardId = kanbanBoardId,
             };
 
-            _references.Add(reference);
+            _dbContext.ProjectKanbanBoardReferences.Add(reference);
 
             return reference;
         }
