@@ -24,5 +24,10 @@
         /// Gets or sets the status of a project.
         /// </summary>
         public string Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the references.
+        /// </summary>
+        public ICollection<ProjectKanbanBoardReference> References { get; set; }
     }
 }

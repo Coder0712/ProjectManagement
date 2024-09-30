@@ -6,6 +6,11 @@
     public sealed class ProjectKanbanBoardReference
     {
         /// <summary>
+        /// Gets or sets the id of the reference.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the id of the project.
         /// </summary>
         public Guid ProjectId { get; set; }
