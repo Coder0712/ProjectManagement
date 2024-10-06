@@ -1,6 +1,6 @@
-﻿using ProjectManagement.Models;
+﻿using ProjectManagement.Domain.Models;
 
-namespace ProjectManagement.Services
+namespace ProjectManagement.Domain.Services
 {
     /// <summary>
     /// A default implementation of a project service.
@@ -53,6 +53,6 @@ namespace ProjectManagement.Services
         /// <param name="projectId">The project id.</param>
         /// <param name="kanbanBoardId">The kanban board id.</param>
         /// <returns>A project kanban board reference.</returns>
-        ProjectKanbanBoardReference AddKanbanBoardToProject(Guid projectId, Guid kanbanBoardId);
+        ProjectKanbanBoardReference AddKanbanBoardToProject(Guid projectId, Guid kanbanBoardId, CancellationToken cancellationToken = default);
     }
 }

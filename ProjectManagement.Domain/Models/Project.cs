@@ -1,4 +1,4 @@
-﻿namespace ProjectManagement.Models
+﻿namespace ProjectManagement.Domain.Models
 {
     /// <summary>
     /// Represents a project.

@@ -1,8 +1,7 @@
-﻿using ProjectManagement.Models;
-using ProjectManagement.Domain;
+﻿using ProjectManagement.Domain.Models;
+using System.Threading;
 
-
-namespace ProjectManagement.Services
+namespace ProjectManagement.Domain.Services
 {
     /// <summary>
     /// Represents the service for porjects.
@@ -87,7 +86,10 @@ namespace ProjectManagement.Services
         /// <param name="kanbanBoardId">The kanban board id.</param>
         /// <returns>A project kanban board reference object.</returns>
         /// <exception cref="NullReferenceException"></exception>
-        public ProjectKanbanBoardReference AddKanbanBoardToProject(Guid projectId, Guid kanbanBoardId)
+        public ProjectKanbanBoardReference AddKanbanBoardToProject(
+            Guid projectId,
+            Guid kanbanBoardId,
+            CancellationToken cancellationToken = default)
         {
             var project = _dbContext.Project.SingleOrDefault(p => p.Id == projectId) 
                 ?? throw new NullReferenceException();
@@ -99,6 +101,7 @@ namespace ProjectManagement.Services
             };
 
             _dbContext.ProjectKanbanBoardReferences.Add(reference);
+            _dbContext.SaveChangesAsync(cancellationToken);
 
             return reference;
         }

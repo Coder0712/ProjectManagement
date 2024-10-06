@@ -1,7 +1,7 @@
-﻿using ProjectManagement.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjectManagement.Domain.Models;
 
-namespace ProjectManagement.Domain
+namespace ProjectManagement.Domain.Services
 {
     /// <summary>
     /// A default implementation for the db context.
@@ -22,6 +22,11 @@ namespace ProjectManagement.Domain
         /// The project kanban board reference db set.
         /// </summary>
         DbSet<ProjectKanbanBoardReference> ProjectKanbanBoardReferences { get; set; }
+
+        /// <summary>
+        /// The cards db set.
+        /// </summary>
+        DbSet<Cards> Cards { get; set; }
 
         /// <summary>
         /// Saves the chnages in the database.

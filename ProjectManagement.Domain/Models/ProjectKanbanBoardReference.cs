@@ -1,4 +1,4 @@
-﻿namespace ProjectManagement.Models
+﻿namespace ProjectManagement.Domain.Models
 {
     /// <summary>
     /// Represents a reference from a project to a kanban board.

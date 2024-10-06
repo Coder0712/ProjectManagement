@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectManagement.Persistence.Options;
-using ProjectManagement.Domain;
+using ProjectManagement.Domain.Services;
 
 namespace ProjectManagement.Persistence
 {

@@ -1,4 +1,4 @@
-using ProjectManagement.Services;
+using ProjectManagement.Domain.Services;
 using ProjectManagement.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +14,7 @@ builder.Services.AddPersistence(builder.Configuration);
 
 builder.Services.AddTransient<IProjectService, ProjectService>();
 builder.Services.AddTransient<IKanbanBoardService, KanbanBoardService>();
+builder.Services.AddTransient<ICardsService, CardsService>();
 
 var app = builder.Build();
 
