@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ProjectManagement.Models;
+using ProjectManagement.Domain.Models;
 
 namespace ProjectManagement.Persistence.Configs
 {

@@ -1,4 +1,4 @@
-﻿using ProjectManagement.Models;
+﻿using ProjectManagement.Domain.Models;
 
 namespace ProjectManagement.Contracts.Projects
 {

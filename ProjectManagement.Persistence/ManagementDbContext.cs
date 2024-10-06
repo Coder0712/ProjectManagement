@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectManagement.Domain;
-using ProjectManagement.Models;
+using ProjectManagement.Domain.Models;
+using ProjectManagement.Domain.Services;
 using System.Reflection;
 
 namespace ProjectManagement.Persistence
@@ -14,7 +14,12 @@ namespace ProjectManagement.Persistence
         }
 
         DbSet<Project> IDbContext.Project { get; set; }
+
         DbSet<KanbanBoard> IDbContext.KanbanBoards { get; set; }
+
+        DbSet<ProjectKanbanBoardReference> IDbContext.ProjectKanbanBoardReferences { get; set; }
+
+        DbSet<Cards> IDbContext.Cards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

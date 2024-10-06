@@ -1,6 +1,6 @@
-﻿using ProjectManagement.Models;
+﻿using ProjectManagement.Domain.Models;
 
-namespace ProjectManagement.Services
+namespace ProjectManagement.Domain.Services
 {
     public interface IKanbanBoardService
     {
