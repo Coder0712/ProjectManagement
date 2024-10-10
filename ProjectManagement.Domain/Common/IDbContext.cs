@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Domain.Models;
 
-namespace ProjectManagement.Domain.Services
+namespace ProjectManagement.Domain.Common
 {
     /// <summary>
     /// A default implementation for the db context.

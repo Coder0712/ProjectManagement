@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Domain.Models;
-using ProjectManagement.Domain.Services;
+using ProjectManagement.Domain.Common;
 using System.Reflection;
 
-namespace ProjectManagement.Persistence
+namespace ProjectManagement.Infrastructure
 {
     public sealed class ManagementDbContext 
         : DbContext, IDbContext

@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ProjectManagement.Persistence.Migrations
+namespace ProjectManagement.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -37,6 +38,28 @@ namespace ProjectManagement.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Card",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Effort = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    BoardId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Card", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Card_KanbanBoard_BoardId",
+                        column: x => x.BoardId,
+                        principalTable: "KanbanBoard",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProjectKanbanBoardReference",
                 columns: table => new
                 {
@@ -62,6 +85,11 @@ namespace ProjectManagement.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Card_BoardId",
+                table: "Card",
+                column: "BoardId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProjectKanbanBoardReference_KanbanBoardId",
                 table: "ProjectKanbanBoardReference",
                 column: "KanbanBoardId");
@@ -75,6 +103,9 @@ namespace ProjectManagement.Persistence.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Card");
+
             migrationBuilder.DropTable(
                 name: "ProjectKanbanBoardReference");
 

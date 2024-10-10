@@ -1,6 +1,8 @@
-﻿using ProjectManagement.Domain.Models;
+﻿using ProjectManagement.Application.Interfaces;
+using ProjectManagement.Domain.Models;
+using ProjectManagement.Domain.Common;
 
-namespace ProjectManagement.Domain.Services
+namespace ProjectManagement.Application.Services
 {
     /// <summary>
     /// The cards service.

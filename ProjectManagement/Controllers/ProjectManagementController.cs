@@ -3,7 +3,7 @@ using ProjectManagement.Contracts.Cards;
 using ProjectManagement.Contracts.KanbanBoards;
 using ProjectManagement.Contracts.ProjectKanbanBoards;
 using ProjectManagement.Contracts.Projects;
-using ProjectManagement.Domain.Services;
+using ProjectManagement.Application.Interfaces;
 
 namespace ProjectManagement.Controllers
 {

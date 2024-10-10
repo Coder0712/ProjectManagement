@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ProjectManagement.Persistence.Options;
-using ProjectManagement.Domain.Services;
+using ProjectManagement.Infrastructure.Options;
+using ProjectManagement.Domain.Common;
 
-namespace ProjectManagement.Persistence
+namespace ProjectManagement.Infrastructure
 {
     public static class DependencyExtensions
     {
@@ -14,7 +14,7 @@ namespace ProjectManagement.Persistence
         /// <param name="services"><see cref="IServiceCollection"/>.</param>
         /// <param name="configuration"><see cref="IConfiguration"/>.</param>
         /// <returns></returns>
-        public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.ConfigureOptions<DatabaseOptionsSetup>();
             services.AddDbContext<IDbContext, ManagementDbContext>(options =>

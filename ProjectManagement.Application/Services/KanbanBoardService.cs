@@ -1,6 +1,8 @@
-﻿using ProjectManagement.Domain.Models;
+﻿using ProjectManagement.Application.Interfaces;
+using ProjectManagement.Domain.Common;
+using ProjectManagement.Domain.Models;
 
-namespace ProjectManagement.Domain.Services
+namespace ProjectManagement.Application.Services
 {
     /// <summary>
     /// The kanban board service.
