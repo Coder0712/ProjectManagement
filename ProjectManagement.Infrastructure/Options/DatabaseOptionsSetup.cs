@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace ProjectManagement.Persistence.Options
+namespace ProjectManagement.Infrastructure.Options
 {
     /// <summary>
     /// Reads the data in the appsettings.

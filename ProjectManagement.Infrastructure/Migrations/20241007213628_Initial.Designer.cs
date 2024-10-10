@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using ProjectManagement.Persistence;
+using ProjectManagement.Infrastructure;
 
 #nullable disable
 
-namespace ProjectManagement.Persistence.Migrations
+namespace ProjectManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(ManagementDbContext))]
-    [Migration("20240831102739_Initial")]
+    [Migration("20241007213628_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,12 +20,43 @@ namespace ProjectManagement.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ProjectManagement.Models.KanbanBoard", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Models.Cards", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BoardId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Effort")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BoardId");
+
+                    b.ToTable("Card", (string)null);
+                });
+
+            modelBuilder.Entity("ProjectManagement.Domain.Models.KanbanBoard", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,7 +71,7 @@ namespace ProjectManagement.Persistence.Migrations
                     b.ToTable("KanbanBoard", (string)null);
                 });
 
-            modelBuilder.Entity("ProjectManagement.Models.Project", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Models.Project", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,7 +94,7 @@ namespace ProjectManagement.Persistence.Migrations
                     b.ToTable("Project", (string)null);
                 });
 
-            modelBuilder.Entity("ProjectManagement.Models.ProjectKanbanBoardReference", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Models.ProjectKanbanBoardReference", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,27 +115,38 @@ namespace ProjectManagement.Persistence.Migrations
                     b.ToTable("ProjectKanbanBoardReference", (string)null);
                 });
 
-            modelBuilder.Entity("ProjectManagement.Models.ProjectKanbanBoardReference", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Models.Cards", b =>
                 {
-                    b.HasOne("ProjectManagement.Models.KanbanBoard", null)
+                    b.HasOne("ProjectManagement.Domain.Models.KanbanBoard", null)
+                        .WithMany("Cards")
+                        .HasForeignKey("BoardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjectManagement.Domain.Models.ProjectKanbanBoardReference", b =>
+                {
+                    b.HasOne("ProjectManagement.Domain.Models.KanbanBoard", null)
                         .WithMany("References")
                         .HasForeignKey("KanbanBoardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjectManagement.Models.Project", null)
+                    b.HasOne("ProjectManagement.Domain.Models.Project", null)
                         .WithMany("References")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjectManagement.Models.KanbanBoard", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Models.KanbanBoard", b =>
                 {
+                    b.Navigation("Cards");
+
                     b.Navigation("References");
                 });
 
-            modelBuilder.Entity("ProjectManagement.Models.Project", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Models.Project", b =>
                 {
                     b.Navigation("References");
                 });

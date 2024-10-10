@@ -1,5 +1,6 @@
-using ProjectManagement.Domain.Services;
-using ProjectManagement.Persistence;
+using ProjectManagement.Application.Interfaces;
+using ProjectManagement.Application.Services;
+using ProjectManagement.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddTransient<IProjectService, ProjectService>();
 builder.Services.AddTransient<IKanbanBoardService, KanbanBoardService>();

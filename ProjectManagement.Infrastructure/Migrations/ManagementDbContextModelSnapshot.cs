@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using ProjectManagement.Persistence;
+using ProjectManagement.Infrastructure;
 
 #nullable disable
 
-namespace ProjectManagement.Persistence.Migrations
+namespace ProjectManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(ManagementDbContext))]
     partial class ManagementDbContextModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace ProjectManagement.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

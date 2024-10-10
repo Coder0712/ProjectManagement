@@ -1,7 +1,8 @@
-﻿using ProjectManagement.Domain.Models;
-using System.Threading;
+﻿using ProjectManagement.Application.Interfaces;
+using ProjectManagement.Domain.Models;
+using ProjectManagement.Domain.Common;
 
-namespace ProjectManagement.Domain.Services
+namespace ProjectManagement.Application.Services
 {
     /// <summary>
     /// Represents the service for porjects.

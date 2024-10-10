@@ -1,4 +1,4 @@
-﻿namespace ProjectManagement.Persistence.Options
+﻿namespace ProjectManagement.Infrastructure.Options
 {
     /// <summary>
     /// Represents the database options.

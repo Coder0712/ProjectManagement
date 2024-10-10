@@ -1,6 +1,6 @@
 ﻿using ProjectManagement.Domain.Models;
 
-namespace ProjectManagement.Domain.Services
+namespace ProjectManagement.Application.Interfaces
 {
     /// <summary>
     /// A default implementation of a card service.
