@@ -7,7 +7,7 @@ using ProjectManagement.Contracts.Projects;
 
 namespace ProjectManagement.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("")]
     [ApiController]
     public sealed class CardController : ControllerBase
     {
