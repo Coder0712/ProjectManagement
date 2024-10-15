@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Application.Interfaces;
+using ProjectManagement.Contracts.Cards;
 using ProjectManagement.Contracts.KanbanBoards;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -19,6 +20,7 @@ namespace ProjectManagement.Controllers
 
         [Route("/api/project-management/kanban-boards")]
         [HttpPost]
+        [ProducesResponseType(typeof(CreateKanbanBoardResponse), StatusCodes.Status201Created)]
         public IActionResult AddKanbanBoard([FromBody] CreateKanbanBoardRequest request)
         {
             ArgumentNullException.ThrowIfNull(request);
@@ -30,6 +32,7 @@ namespace ProjectManagement.Controllers
 
         [Route("/api/project-management/kanban-boards/{id}")]
         [HttpPut]
+        [ProducesResponseType(typeof(UpdateKanbanBoardResponse), StatusCodes.Status200OK)]
         public IActionResult UpdateKanbanBoard(
             [FromRoute] Guid id,
             [FromBody] UpdateKanbanBoardRequst request)
@@ -43,6 +46,7 @@ namespace ProjectManagement.Controllers
 
         [Route("/api/project-management/kanban-boards/{id}")]
         [HttpGet]
+        [ProducesResponseType(typeof(GetKanbanBoardByIdResponse), StatusCodes.Status200OK)]
         public IActionResult GetKanbanBoardById(
             [FromRoute] Guid id)
         {
@@ -53,6 +57,7 @@ namespace ProjectManagement.Controllers
 
         [Route("/api/project-management/kanban-boards")]
         [HttpGet]
+        [ProducesResponseType(typeof(GetKanbanBoardsResponse), StatusCodes.Status200OK)]
         public IActionResult GetKanbanBoards()
         {
             var kanbanBoard = _kanbanBoardService.GetBoards();
@@ -62,6 +67,7 @@ namespace ProjectManagement.Controllers
 
         [Route("/api/project-management/kanban-boards/{id}")]
         [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult DeleteKanbanBoardById(
             [FromRoute] Guid id)
         {
