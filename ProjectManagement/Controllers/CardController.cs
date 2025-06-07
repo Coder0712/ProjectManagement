@@ -7,6 +7,9 @@ using ProjectManagement.Contracts.Projects;
 
 namespace ProjectManagement.Controllers
 {
+    /// <summary>
+    /// Controller for the card endpoints.
+    /// </summary>
     [Route("")]
     [ApiController]
     public sealed class CardController : ControllerBase
@@ -18,6 +21,11 @@ namespace ProjectManagement.Controllers
             _cardService = cardService;
         }
 
+        /// <summary>
+        /// Creates a new card.
+        /// </summary>
+        /// <param name="request"><see cref="CreateCardRequest"/>.</param>
+        /// <returns>A new card.</returns>
         [Route("/api/project-management/cards")]
         [HttpPost]
         [ProducesResponseType(typeof(CreateCardResponse), StatusCodes.Status201Created)]
@@ -35,8 +43,14 @@ namespace ProjectManagement.Controllers
             return Ok(card);
         }
 
+        /// <summary>
+        /// Updates a card.
+        /// </summary>
+        /// <param name="id">The id of the card.</param>
+        /// <param name="request"><see cref="UpdateCardRequest"/>.</param>
+        /// <returns>An updated card.</returns>
         [Route("/api/project-management/cards/{id}")]
-        [HttpPut]
+        [HttpPatch]
         [ProducesResponseType(typeof(UpdateCardResponse), StatusCodes.Status200OK)]
         public IActionResult UpdateCard(
             [FromRoute] Guid id,
@@ -55,16 +69,11 @@ namespace ProjectManagement.Controllers
             return Ok(kanbanBoard);
         }
 
-        [Route("/api/project-management/cards")]
-        [HttpGet]
-        [ProducesResponseType(typeof(GetAllProjectsResponse), StatusCodes.Status200OK)]
-        public IActionResult GetAllCards()
-        {
-            var allCards = _cardService.GetAllCards();
-
-            return Ok(allCards);
-        }
-
+        /// <summary>
+        /// Gets a card by the id.
+        /// </summary>
+        /// <param name="id">The id of the card.</param>
+        /// <returns>A single card.</returns>
         [Route("/api/project-management/cards/{id}")]
         [HttpGet]
         [ProducesResponseType(typeof(GetCardByIdResponse), StatusCodes.Status200OK)]
@@ -75,6 +84,25 @@ namespace ProjectManagement.Controllers
             return Ok(card);
         }
 
+        /// <summary>
+        /// Gets all cards.
+        /// </summary>
+        /// <returns>A list with all cards.</returns>
+        [Route("/api/project-management/cards")]
+        [HttpGet]
+        [ProducesResponseType(typeof(GetAllProjectsResponse), StatusCodes.Status200OK)]
+        public IActionResult GetAllCards()
+        {
+            var allCards = _cardService.GetAllCards();
+
+            return Ok(allCards);
+        }
+
+        /// <summary>
+        /// Deletes a card by the id.
+        /// </summary>
+        /// <param name="id">The id of the card.</param>
+        /// <returns>No content.</returns>
         [Route("/api/project-management/cards/{id}")]
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
