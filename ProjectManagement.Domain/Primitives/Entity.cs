@@ -1,6 +1,4 @@
-﻿using System.Runtime.ExceptionServices;
-
-namespace ProjectManagement.Domain.Primitives
+﻿namespace ProjectManagement.Domain.Primitives
 {
     public abstract class Entity 
         : IEquatable<Entity>
