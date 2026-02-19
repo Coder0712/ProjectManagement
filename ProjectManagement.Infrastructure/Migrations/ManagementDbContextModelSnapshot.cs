@@ -28,15 +28,15 @@ namespace ProjectManagement.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("BoardId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Effort")
                         .HasColumnType("integer");
+
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -48,9 +48,29 @@ namespace ProjectManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BoardId");
+                    b.HasIndex("GroupId");
 
                     b.ToTable("Card", (string)null);
+                });
+
+            modelBuilder.Entity("ProjectManagement.Domain.Models.Group", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BoardId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BoardId");
+
+                    b.ToTable("Group", (string)null);
                 });
 
             modelBuilder.Entity("ProjectManagement.Domain.Models.KanbanBoard", b =>
@@ -63,7 +83,13 @@ namespace ProjectManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId")
+                        .IsUnique();
 
                     b.ToTable("KanbanBoard", (string)null);
                 });
@@ -91,61 +117,52 @@ namespace ProjectManagement.Infrastructure.Migrations
                     b.ToTable("Project", (string)null);
                 });
 
-            modelBuilder.Entity("ProjectManagement.Domain.Models.ProjectKanbanBoardReference", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("KanbanBoardId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KanbanBoardId");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("ProjectKanbanBoardReference", (string)null);
-                });
-
             modelBuilder.Entity("ProjectManagement.Domain.Models.Cards", b =>
                 {
-                    b.HasOne("ProjectManagement.Domain.Models.KanbanBoard", null)
+                    b.HasOne("ProjectManagement.Domain.Models.Group", "Group")
                         .WithMany("Cards")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+                });
+
+            modelBuilder.Entity("ProjectManagement.Domain.Models.Group", b =>
+                {
+                    b.HasOne("ProjectManagement.Domain.Models.KanbanBoard", "Board")
+                        .WithMany("Groups")
                         .HasForeignKey("BoardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("ProjectManagement.Domain.Models.ProjectKanbanBoardReference", b =>
-                {
-                    b.HasOne("ProjectManagement.Domain.Models.KanbanBoard", null)
-                        .WithMany("References")
-                        .HasForeignKey("KanbanBoardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProjectManagement.Domain.Models.Project", null)
-                        .WithMany("References")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Board");
                 });
 
             modelBuilder.Entity("ProjectManagement.Domain.Models.KanbanBoard", b =>
                 {
-                    b.Navigation("Cards");
+                    b.HasOne("ProjectManagement.Domain.Models.Project", "Project")
+                        .WithOne("Board")
+                        .HasForeignKey("ProjectManagement.Domain.Models.KanbanBoard", "ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("References");
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("ProjectManagement.Domain.Models.Group", b =>
+                {
+                    b.Navigation("Cards");
+                });
+
+            modelBuilder.Entity("ProjectManagement.Domain.Models.KanbanBoard", b =>
+                {
+                    b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("ProjectManagement.Domain.Models.Project", b =>
                 {
-                    b.Navigation("References");
+                    b.Navigation("Board");
                 });
 #pragma warning restore 612, 618
         }

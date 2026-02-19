@@ -13,6 +13,10 @@ namespace ProjectManagement.Infrastructure.Configs
             builder.HasKey(k => k.Id);
 
             builder.Property(k => k.Name);
+
+            builder.HasMany(b => b.Groups)
+                .WithOne(c => c.Board)
+                .HasForeignKey(c => c.BoardId);
         }
     }
 }

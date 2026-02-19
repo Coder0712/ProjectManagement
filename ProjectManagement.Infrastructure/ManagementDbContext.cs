@@ -17,7 +17,7 @@ namespace ProjectManagement.Infrastructure
 
         DbSet<KanbanBoard> IDbContext.KanbanBoards { get; set; }
 
-        DbSet<ProjectKanbanBoardReference> IDbContext.ProjectKanbanBoardReferences { get; set; }
+        DbSet<Group> IDbContext.Groups { get; set; }
 
         DbSet<Cards> IDbContext.Cards { get; set; }
 

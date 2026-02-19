@@ -26,8 +26,8 @@
         public required string Status { get; init; }
 
         /// <summary>
-        /// Gets the board.
+        /// Gets the group id.
         /// </summary>
-        public required Guid Board { get; init; }
+        public required Guid GroupId { get; init; }
     }
 }

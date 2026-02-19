@@ -1,6 +1,7 @@
 ﻿using ProjectManagement.Application.Interfaces;
-using ProjectManagement.Domain.Models;
 using ProjectManagement.Domain.Common;
+using ProjectManagement.Domain.Models;
+using System.Text.RegularExpressions;
 
 namespace ProjectManagement.Application.Services
 {
@@ -19,7 +20,7 @@ namespace ProjectManagement.Application.Services
             string description,
             int effort,
             string status,
-            Guid boardId,
+            Guid groupId,
             CancellationToken cancellationToken = default)
         {
             var card = new Cards
@@ -29,7 +30,7 @@ namespace ProjectManagement.Application.Services
                 Description = description,
                 Effort = effort,
                 Status = status,
-                BoardId = boardId,
+                GroupId = groupId,
             };
 
             _ = _dbContext.Cards.Add(card);
@@ -69,7 +70,7 @@ namespace ProjectManagement.Application.Services
             string description,
             int effort,
             string status,
-            Guid boardId,
+            Guid groupId,
             CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(title);
@@ -83,7 +84,7 @@ namespace ProjectManagement.Application.Services
             card.Description = description;
             card.Effort = effort;
             card.Status = status;
-            card.BoardId = boardId;
+            card.GroupId = groupId;
 
             _dbContext.Cards.Update(card);
             _dbContext.SaveChangesAsync(cancellationToken);

@@ -38,7 +38,7 @@ namespace ProjectManagement.Controllers
                 request.Description,
                 request.Effort,
                 request.Status,
-                request.Board);
+                request.GroupId);
 
             return Ok(card);
         }
