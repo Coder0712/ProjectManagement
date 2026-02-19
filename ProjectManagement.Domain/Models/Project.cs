@@ -26,8 +26,8 @@
         public string Status { get; set; }
 
         /// <summary>
-        /// Gets or sets the references.
+        /// Gets or sets the board.
         /// </summary>
-        public ICollection<ProjectKanbanBoardReference> References { get; set; }
+        public KanbanBoard? Board { get; set; }
     }
 }

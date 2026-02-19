@@ -33,6 +33,11 @@
         /// <summary>
         /// Gets or sets the board id.
         /// </summary>
-        public Guid BoardId { get; set; }
+        public Guid GroupId { get; set; }
+
+        /// <summary>
+        /// Board reference.
+        /// </summary>
+        public Group Group { get; set; }
     }
 }

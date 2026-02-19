@@ -21,7 +21,7 @@ namespace ProjectManagement.Domain.Common
         /// <summary>
         /// The project kanban board reference db set.
         /// </summary>
-        DbSet<ProjectKanbanBoardReference> ProjectKanbanBoardReferences { get; set; }
+        DbSet<Group> Groups { get; set; }
 
         /// <summary>
         /// The cards db set.

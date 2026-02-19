@@ -79,32 +79,5 @@ namespace ProjectManagement.Application.Services
             _dbContext.Project.Remove(project);
             _dbContext.SaveChangesAsync(cancellationToken);
         }
-
-        /// <summary>
-        /// Creates a new project kanban board reference.
-        /// </summary>
-        /// <param name="projectId">The project id.</param>
-        /// <param name="kanbanBoardId">The kanban board id.</param>
-        /// <returns>A project kanban board reference object.</returns>
-        /// <exception cref="NullReferenceException"></exception>
-        public ProjectKanbanBoardReference AddKanbanBoardToProject(
-            Guid projectId,
-            Guid kanbanBoardId,
-            CancellationToken cancellationToken = default)
-        {
-            var project = _dbContext.Project.SingleOrDefault(p => p.Id == projectId) 
-                ?? throw new NullReferenceException();
-
-            var reference = new ProjectKanbanBoardReference
-            {
-                ProjectId = projectId,
-                KanbanBoardId = kanbanBoardId,
-            };
-
-            _dbContext.ProjectKanbanBoardReferences.Add(reference);
-            _dbContext.SaveChangesAsync(cancellationToken);
-
-            return reference;
-        }
     }
 }

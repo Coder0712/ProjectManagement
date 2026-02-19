@@ -16,13 +16,18 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the references.
+        /// Gets the project id.
         /// </summary>
-        public ICollection<ProjectKanbanBoardReference> References { get; set; }
+        public Guid ProjectId { get; set; }
+
+        /// <summary>
+        /// Project reference.
+        /// </summary>
+        public Project Project { get; set; }
 
         /// <summary>
         /// Gets or sets the cards.
         /// </summary>
-        public ICollection<Cards> Cards { get; set; }
+        public ICollection<Group> Groups { get; set; }
     }
 }

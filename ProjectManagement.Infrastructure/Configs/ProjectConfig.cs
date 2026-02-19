@@ -17,6 +17,10 @@ namespace ProjectManagement.Infrastructure.Configs
             builder.Property(p => p.Description);
 
             builder.Property(p => p.Status);
+
+            builder.HasOne(p => p.Board)
+                .WithOne(b => b.Project)
+                .HasForeignKey<KanbanBoard>(b => b.ProjectId);
         }
     }
 }

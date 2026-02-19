@@ -23,10 +23,6 @@ namespace ProjectManagement.Infrastructure.Configs
 
             builder.Property(c => c.Status)
                 .IsRequired();
-
-            builder.HasOne<KanbanBoard>()
-                .WithMany(k => k.Cards)
-                .HasForeignKey(c => c.BoardId);
         }
     }
 }

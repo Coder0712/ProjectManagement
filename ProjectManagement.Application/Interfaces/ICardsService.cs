@@ -22,7 +22,7 @@ namespace ProjectManagement.Application.Interfaces
             string description,
             int effort,
             string status,
-            Guid boardId,
+            Guid groupId,
             CancellationToken cancellationToken = default);
 
         /// <summary>
