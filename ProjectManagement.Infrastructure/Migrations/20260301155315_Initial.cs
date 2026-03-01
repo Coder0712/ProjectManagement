@@ -18,7 +18,10 @@ namespace ProjectManagement.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    Status = table.Column<string>(type: "text", nullable: false)
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    BoardId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,18 +29,20 @@ namespace ProjectManagement.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "KanbanBoard",
+                name: "Board",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_KanbanBoard", x => x.Id);
+                    table.PrimaryKey("PK_Board", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_KanbanBoard_Project_ProjectId",
+                        name: "FK_Board_Project_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Project",
                         principalColumn: "Id",
@@ -50,15 +55,17 @@ namespace ProjectManagement.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
-                    BoardId = table.Column<Guid>(type: "uuid", nullable: false)
+                    BoardId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Group", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Group_KanbanBoard_BoardId",
+                        name: "FK_Group_Board_BoardId",
                         column: x => x.BoardId,
-                        principalTable: "KanbanBoard",
+                        principalTable: "Board",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -72,7 +79,9 @@ namespace ProjectManagement.Infrastructure.Migrations
                     Description = table.Column<string>(type: "text", nullable: false),
                     Effort = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uuid", nullable: false)
+                    GroupId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,6 +95,12 @@ namespace ProjectManagement.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Board_ProjectId",
+                table: "Board",
+                column: "ProjectId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Card_GroupId",
                 table: "Card",
                 column: "GroupId");
@@ -94,12 +109,6 @@ namespace ProjectManagement.Infrastructure.Migrations
                 name: "IX_Group_BoardId",
                 table: "Group",
                 column: "BoardId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_KanbanBoard_ProjectId",
-                table: "KanbanBoard",
-                column: "ProjectId",
-                unique: true);
         }
 
         /// <inheritdoc />
@@ -112,7 +121,7 @@ namespace ProjectManagement.Infrastructure.Migrations
                 name: "Group");
 
             migrationBuilder.DropTable(
-                name: "KanbanBoard");
+                name: "Board");
 
             migrationBuilder.DropTable(
                 name: "Project");

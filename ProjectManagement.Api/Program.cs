@@ -10,10 +10,6 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddTransient<IProjectService, ProjectService>();
-builder.Services.AddTransient<IKanbanBoardService, KanbanBoardService>();
-builder.Services.AddTransient<ICardsService, CardsService>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

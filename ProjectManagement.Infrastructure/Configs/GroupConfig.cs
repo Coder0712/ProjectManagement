@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ProjectManagement.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ProjectManagement.Domain.Boards;
+using ProjectManagement.Domain.Projects;
 
 namespace ProjectManagement.Infrastructure.Configs
 {
@@ -18,6 +14,12 @@ namespace ProjectManagement.Infrastructure.Configs
             builder.HasKey(g => g.Id);
 
             builder.Property(g => g.Title);
+
+            builder.Property(g => g.CreatedAt)
+                .IsRequired();
+
+            builder.Property(g => g.LastModifiedAt)
+                .IsRequired();
 
             builder.HasMany(g => g.Cards)
                 .WithOne(c => c.Group)

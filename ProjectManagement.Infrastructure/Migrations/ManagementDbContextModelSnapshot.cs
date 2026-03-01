@@ -17,16 +17,46 @@ namespace ProjectManagement.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "9.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ProjectManagement.Domain.Models.Cards", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Boards.Board", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId")
+                        .IsUnique();
+
+                    b.ToTable("Board", (string)null);
+                });
+
+            modelBuilder.Entity("ProjectManagement.Domain.Boards.Card", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -37,6 +67,9 @@ namespace ProjectManagement.Infrastructure.Migrations
 
                     b.Property<Guid>("GroupId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -53,7 +86,7 @@ namespace ProjectManagement.Infrastructure.Migrations
                     b.ToTable("Card", (string)null);
                 });
 
-            modelBuilder.Entity("ProjectManagement.Domain.Models.Group", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Boards.Group", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,6 +94,12 @@ namespace ProjectManagement.Infrastructure.Migrations
 
                     b.Property<Guid>("BoardId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -73,36 +112,24 @@ namespace ProjectManagement.Infrastructure.Migrations
                     b.ToTable("Group", (string)null);
                 });
 
-            modelBuilder.Entity("ProjectManagement.Domain.Models.KanbanBoard", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Projects.Project", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("ProjectId")
+                    b.Property<Guid?>("BoardId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId")
-                        .IsUnique();
-
-                    b.ToTable("KanbanBoard", (string)null);
-                });
-
-            modelBuilder.Entity("ProjectManagement.Domain.Models.Project", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -117,9 +144,20 @@ namespace ProjectManagement.Infrastructure.Migrations
                     b.ToTable("Project", (string)null);
                 });
 
-            modelBuilder.Entity("ProjectManagement.Domain.Models.Cards", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Boards.Board", b =>
                 {
-                    b.HasOne("ProjectManagement.Domain.Models.Group", "Group")
+                    b.HasOne("ProjectManagement.Domain.Projects.Project", "Project")
+                        .WithOne("Board")
+                        .HasForeignKey("ProjectManagement.Domain.Boards.Board", "ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("ProjectManagement.Domain.Boards.Card", b =>
+                {
+                    b.HasOne("ProjectManagement.Domain.Boards.Group", "Group")
                         .WithMany("Cards")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -128,9 +166,9 @@ namespace ProjectManagement.Infrastructure.Migrations
                     b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("ProjectManagement.Domain.Models.Group", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Boards.Group", b =>
                 {
-                    b.HasOne("ProjectManagement.Domain.Models.KanbanBoard", "Board")
+                    b.HasOne("ProjectManagement.Domain.Boards.Board", "Board")
                         .WithMany("Groups")
                         .HasForeignKey("BoardId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -139,30 +177,20 @@ namespace ProjectManagement.Infrastructure.Migrations
                     b.Navigation("Board");
                 });
 
-            modelBuilder.Entity("ProjectManagement.Domain.Models.KanbanBoard", b =>
-                {
-                    b.HasOne("ProjectManagement.Domain.Models.Project", "Project")
-                        .WithOne("Board")
-                        .HasForeignKey("ProjectManagement.Domain.Models.KanbanBoard", "ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("ProjectManagement.Domain.Models.Group", b =>
-                {
-                    b.Navigation("Cards");
-                });
-
-            modelBuilder.Entity("ProjectManagement.Domain.Models.KanbanBoard", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Boards.Board", b =>
                 {
                     b.Navigation("Groups");
                 });
 
-            modelBuilder.Entity("ProjectManagement.Domain.Models.Project", b =>
+            modelBuilder.Entity("ProjectManagement.Domain.Boards.Group", b =>
                 {
-                    b.Navigation("Board");
+                    b.Navigation("Cards");
+                });
+
+            modelBuilder.Entity("ProjectManagement.Domain.Projects.Project", b =>
+                {
+                    b.Navigation("Board")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

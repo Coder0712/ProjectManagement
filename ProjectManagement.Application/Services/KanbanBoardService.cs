@@ -1,56 +1,40 @@
-﻿using ProjectManagement.Application.Interfaces;
+﻿using ProjectManagement.Domain.Boards;
 using ProjectManagement.Domain.Common;
-using ProjectManagement.Domain.Models;
 
 namespace ProjectManagement.Application.Services
 {
     /// <summary>
     /// The kanban board service.
     /// </summary>
-    public sealed class KanbanBoardService : IKanbanBoardService
+    public sealed class Boardervice
     {
 
         private readonly IDbContext _dbContext;
         
         /// <summary>
-        /// Initialize a new object of type <see cref="KanbanBoardService"/>.>
+        /// Initialize a new object of type <see cref="Boardervice"/>.>
         /// </summary>
         /// <param name="dbContext">The db context.</param>
-        public KanbanBoardService(IDbContext dbContext)
+        public Boardervice(IDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         /// <inheritdoc />
-        public KanbanBoard CreateBoard(string name, CancellationToken cancellationToken = default)
-        {
-            var kanbanBoard = new KanbanBoard
-            {
-                Id = Guid.NewGuid(),
-                Name = name,
-            };
-
-            _dbContext.KanbanBoards.Add(kanbanBoard);
-            _dbContext.SaveChangesAsync(cancellationToken);
-
-            return kanbanBoard;
-        }
-
-        /// <inheritdoc />
         public void DeleteBoard(Guid id, CancellationToken cancellationToken = default)
         {
-            var kanbanBoard = _dbContext.KanbanBoards.SingleOrDefault(p => p.Id == id)
+            var kanbanBoard = _dbContext.Board.SingleOrDefault(p => p.Id == id)
                 ?? throw new NullReferenceException();
 
-            _dbContext.KanbanBoards.Remove(kanbanBoard);
+            _dbContext.Board.Remove(kanbanBoard);
             _dbContext.SaveChangesAsync(cancellationToken);
 
         }
 
         /// <inheritdoc />
-        public KanbanBoard GetBoard(Guid id)
+        public Board GetBoard(Guid id)
         {
-            var kanbanBoard = _dbContext.KanbanBoards.SingleOrDefault(p => p.Id == id);
+            var kanbanBoard = _dbContext.Board.SingleOrDefault(p => p.Id == id);
 
             return kanbanBoard is null
                 ? throw new NullReferenceException()
@@ -58,25 +42,9 @@ namespace ProjectManagement.Application.Services
         }
 
         /// <inheritdoc />
-        public List<KanbanBoard> GetBoards()
+        public List<Board> GetBoards()
         {
-            return _dbContext.KanbanBoards.ToList();
-        }
-
-        /// <inheritdoc />
-        public KanbanBoard UpdateBoard(Guid id, string name, CancellationToken cancellationToken = default)
-        {
-            ArgumentNullException.ThrowIfNull(name);
-
-            var board = _dbContext.KanbanBoards.SingleOrDefault(p => p.Id == id)
-                ?? throw new NullReferenceException();
-
-            board.Name = name;
-
-            _dbContext.KanbanBoards.Update(board);
-            _dbContext.SaveChangesAsync(cancellationToken);
-
-            return board;
+            return _dbContext.Board.ToList();
         }
     }
 }

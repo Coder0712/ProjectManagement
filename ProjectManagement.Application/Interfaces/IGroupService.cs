@@ -1,4 +1,4 @@
-﻿using ProjectManagement.Domain.Models;
+﻿using ProjectManagement.Domain.Boards;
 
 namespace ProjectManagement.Application.Interfaces
 {
@@ -36,6 +36,6 @@ namespace ProjectManagement.Application.Interfaces
         /// <param name="id">The id of the group.</param>
         void DeleteGroup(Guid id);
 
-        Group UpdateGroup(Guid id, Cards card);
+        Group UpdateGroup(Guid id, Card card);
     }
 }

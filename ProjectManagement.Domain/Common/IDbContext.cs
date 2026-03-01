@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectManagement.Domain.Models;
+using ProjectManagement.Domain.Boards;
+using ProjectManagement.Domain.Projects;
 
 namespace ProjectManagement.Domain.Common
 {
@@ -16,17 +17,17 @@ namespace ProjectManagement.Domain.Common
         /// <summary>
         /// The kanban board db set.
         /// </summary>
-        DbSet<KanbanBoard> KanbanBoards { get; set; }
+        DbSet<Board> Board { get; set; }
 
         /// <summary>
         /// The project kanban board reference db set.
         /// </summary>
-        DbSet<Group> Groups { get; set; }
+        DbSet<Group> Group { get; set; }
 
         /// <summary>
         /// The cards db set.
         /// </summary>
-        DbSet<Cards> Cards { get; set; }
+        DbSet<Card> Card { get; set; }
 
         /// <summary>
         /// Saves the chnages in the database.

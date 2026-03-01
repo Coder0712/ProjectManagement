@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectManagement.Domain.Models;
+using ProjectManagement.Domain.Boards;
 using ProjectManagement.Domain.Common;
+using ProjectManagement.Domain.Projects;
 using System.Reflection;
 
 namespace ProjectManagement.Infrastructure
@@ -15,11 +16,11 @@ namespace ProjectManagement.Infrastructure
 
         DbSet<Project> IDbContext.Project { get; set; }
 
-        DbSet<KanbanBoard> IDbContext.KanbanBoards { get; set; }
+        DbSet<Board> IDbContext.Board { get; set; }
 
-        DbSet<Group> IDbContext.Groups { get; set; }
+        DbSet<Group> IDbContext.Group { get; set; }
 
-        DbSet<Cards> IDbContext.Cards { get; set; }
+        DbSet<Card> IDbContext.Card { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
