@@ -19,14 +19,6 @@
         protected AggregateRoot(Guid id)
             : base(id)
         {
-            CreatedAt = DateTime.UtcNow;
         }
-
-        public DateTime CreatedAt { get; init; }
-
-        public DateTime LastModified { get; protected set; }
-
-        public DateTime Modify()
-            => LastModified = DateTime.UtcNow;
     }
 }

@@ -1,12 +1,12 @@
 ﻿namespace ProjectManagement.Contracts.Cards
 {
-    using ProjectManagement.Domain.Models;
+    using ProjectManagement.Domain.Boards;
 
     public sealed record GetCardByIdResponse
     {
         /// <summary>
         /// Gets a card.
         /// </summary>
-        public required Cards Card {  get; set; }
+        public required Card Card {  get; set; }
     }
 }

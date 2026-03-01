@@ -1,4 +1,4 @@
-﻿using ProjectManagement.Domain.Models;
+﻿using ProjectManagement.Domain.Boards;
 
 namespace ProjectManagement.Application.Interfaces
 {
@@ -17,7 +17,7 @@ namespace ProjectManagement.Application.Interfaces
         /// <param name="boardId">The board id.</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/>.</param>
         /// <returns>A new instance of type <see cref="Cards"/>.</returns>
-        Cards Create(
+        Card Create(
             string title,
             string description,
             int effort,
@@ -35,7 +35,7 @@ namespace ProjectManagement.Application.Interfaces
         /// <param name="boardId">The board id.</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/>.</param>
         /// <returns>A updated instance of type <see cref="Cards"/>.</returns>
-        Cards UpdateCard(
+        Card UpdateCard(
             Guid CardId,
             string title,
             string description,
@@ -55,13 +55,13 @@ namespace ProjectManagement.Application.Interfaces
         /// Gets all cards.
         /// </summary>
         /// <returns>A list with all cards.</returns>
-        List<Cards> GetAllCards();
+        List<Card> GetAllCards();
 
         /// <summary>
         /// Gets a card by the id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Cards GetCardbyId(Guid id);
+        Card GetCardbyId(Guid id);
     }
 }

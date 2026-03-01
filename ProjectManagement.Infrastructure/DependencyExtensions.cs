@@ -18,7 +18,10 @@ namespace ProjectManagement.Infrastructure
         {
             services.ConfigureOptions<DatabaseOptionsSetup>();
             services.AddDbContext<IDbContext, ManagementDbContext>(options =>
-                options.UseNpgsql(GetConnectionString(configuration)));
+            {
+                options.UseNpgsql(GetConnectionString(configuration));
+                options.AddInterceptors(new AuditableInterceptor());
+            });
 
             return services;
         }

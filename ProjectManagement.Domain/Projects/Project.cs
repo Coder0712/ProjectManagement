@@ -1,11 +1,12 @@
-﻿using ProjectManagement.Domain.Common;
+﻿using ProjectManagement.Domain.Boards;
+using ProjectManagement.Domain.Common;
 
 namespace ProjectManagement.Domain.Projects
 {
     /// <summary>
     /// The project aggregate.
     /// </summary>
-    public sealed class Project : AggregateRoot
+    public sealed class Project : AggregateRoot, IAuditable
     {
         /// <summary>
         /// For EFCore.
@@ -51,7 +52,15 @@ namespace ProjectManagement.Domain.Projects
         /// <summary>
         /// Gets the board id.
         /// </summary>
-        public BoardId? BoardId { get; private set; }
+        public Guid? BoardId { get; private set; }
+
+        public Board Board { get; init; }
+
+        /// <inheritdoc/>
+        public DateTime CreatedAt { get; init; }
+
+        /// <inheritdoc/>
+        public DateTime LastModifiedAt { get; init; }
 
         /// <summary>
         /// Creates a new project.
@@ -65,7 +74,7 @@ namespace ProjectManagement.Domain.Projects
             string name,
             string description,
             string status,
-            BoardId boardId)
+            Guid boardId)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -96,10 +105,9 @@ namespace ProjectManagement.Domain.Projects
         /// </summary>
         /// <param name="boardId">The new board id.</param>
         /// <returns>The updated project.</returns>
-        public Project AddOrChangeBoard(BoardId boardId)
+        public Project AddOrChangeBoard(Guid boardId)
         {
             this.BoardId = boardId;
-            Modify();
             return this;
         }
 
@@ -110,7 +118,6 @@ namespace ProjectManagement.Domain.Projects
         public Project RemoveBoard()
         {
             this.BoardId = null;
-            Modify();
             return this;
         }
 
@@ -127,7 +134,6 @@ namespace ProjectManagement.Domain.Projects
             }
 
             this.Name = name;
-            Modify();
             return this;
         }
 
@@ -144,7 +150,6 @@ namespace ProjectManagement.Domain.Projects
             }
 
             this.Description = description;
-            Modify();
             return this;
         }
 
@@ -161,7 +166,6 @@ namespace ProjectManagement.Domain.Projects
             }
 
             this.Status = status;
-            Modify();
             return this;
         }
     }

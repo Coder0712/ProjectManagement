@@ -1,13 +1,12 @@
-﻿using ProjectManagement.Application.Interfaces;
-using ProjectManagement.Domain.Models;
-using ProjectManagement.Domain.Common;
+﻿using ProjectManagement.Domain.Common;
+using ProjectManagement.Domain.Projects;
 
 namespace ProjectManagement.Application.Services
 {
     /// <summary>
     /// Represents the service for porjects.
     /// </summary>
-    public sealed class ProjectService : IProjectService
+    public sealed class ProjectService
     {
         private readonly IDbContext _dbContext;
 
@@ -21,36 +20,10 @@ namespace ProjectManagement.Application.Services
         }
 
         /// <inheritdoc />
-        public Project CreateProject(string name, string description, string status, CancellationToken cancellationToken = default)
-        {
-            var project = new Project
-            {
-                Id = Guid.NewGuid(),
-                Name = name,
-                Description = description,
-                Status = status
-            };
-
-            _dbContext.Project.Add(project);
-            _dbContext.SaveChangesAsync(cancellationToken);
-
-            return project;
-        }
-
-        /// <inheritdoc />
         public Project UpdateProject(Guid id, string name, string status, CancellationToken cancellationToken = default)
         {
             var project = _dbContext.Project.FirstOrDefault(p => p.Id == id) 
                 ?? throw new NullReferenceException();
-            
-            if (name is null)
-            {
-                project.Status = status;
-            }
-            else
-            {
-                project.Name = name;
-            }
 
             _dbContext.Project.Update(project);
             _dbContext.SaveChangesAsync(cancellationToken);

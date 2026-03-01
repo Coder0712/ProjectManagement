@@ -1,4 +1,4 @@
-﻿using ProjectManagement.Domain.Models;
+﻿using ProjectManagement.Domain.Boards;
 
 namespace ProjectManagement.Contracts.KanbanBoards
 {
@@ -10,6 +10,6 @@ namespace ProjectManagement.Contracts.KanbanBoards
         /// <summary>
         /// Gets or sets the kanban boards.
         /// </summary>
-        public required List<KanbanBoard> KanbanBoards { get; set; }
+        public required List<Board> KanbanBoards { get; set; }
     }
 }

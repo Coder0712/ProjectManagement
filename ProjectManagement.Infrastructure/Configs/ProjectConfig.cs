@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ProjectManagement.Domain.Models;
+using ProjectManagement.Domain.Boards;
+using ProjectManagement.Domain.Projects;
 
 namespace ProjectManagement.Infrastructure.Configs
 {
@@ -18,9 +19,15 @@ namespace ProjectManagement.Infrastructure.Configs
 
             builder.Property(p => p.Status);
 
+            builder.Property(p => p.CreatedAt)
+                .IsRequired();
+
+            builder.Property(p => p.LastModifiedAt)
+                .IsRequired();
+
             builder.HasOne(p => p.Board)
                 .WithOne(b => b.Project)
-                .HasForeignKey<KanbanBoard>(b => b.ProjectId);
+                .HasForeignKey<Board>(b => b.ProjectId);
         }
     }
 }
